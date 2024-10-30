@@ -28,12 +28,4 @@ I'm a full stack developer currently living in Southern Colorado. Take the time 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](www.linkedin.com/in/garrett-pearson-909854225)
 
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
-
-
-## Demo
-
-Insert gif or link to demo
 
