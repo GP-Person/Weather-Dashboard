@@ -46,7 +46,7 @@ class WeatherService {
   }
 
   private async buildForecastQuery(coordinates: Coordinates): Promise<any> {
-    const response = await fetch(`${this.baseURL}/data/2.5/forecast?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=${this.apiKey}&units=metric`);
+    const response = await fetch(`${this.baseURL}/data/2.5/forecast?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=${this.apiKey}&units=imperial`);
     return response.json();  // Parse the response here
   }
 
@@ -74,16 +74,22 @@ class WeatherService {
   }
 
   private buildForecastArray(weatherData: any[]): Weather[] {
-    return weatherData.map((data) => ({
-      city: this.cityName,
-      date: new Date(data.dt * 1000).toLocaleString(),
-      tempF: data.main.temp,
-      icon: data.weather[0].icon,
-      iconDescription: data.weather[0].description,
-      humidity: data.main.humidity,
-      windSpeed: data.wind.speed,
-    }));
-  }
+  // Filter to one forecast per day at 12:00:00 PM
+  const dailyAtNoon = weatherData.filter((entry) =>
+    entry.dt_txt.includes("12:00:00")
+  );
+
+  return dailyAtNoon.map((data) => ({
+    city: this.cityName,
+    date: new Date(data.dt * 1000).toLocaleString(),
+    tempF: data.main.temp,
+    icon: data.weather[0].icon,
+    iconDescription: data.weather[0].description,
+    humidity: data.main.humidity,
+    windSpeed: data.wind.speed,
+  }));
+}
+
 
   async getWeatherForCity(city: string): Promise<Weather[]> {
     this.cityName = city;
